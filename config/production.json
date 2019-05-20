@@ -1,0 +1,4 @@
+{
+    "mongoURI":"mongodb+srv://equalitylawapp:dreameu@2019@cluster0-phrta.mongodb.net/test",
+    "jwtSecret":"thisissecretformyapp"
+}

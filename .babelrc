@@ -1,0 +1,13 @@
+{
+    "presets": ["env"],
+    
+    "plugins": [
+        ["transform-object-rest-spread",
+            "transform-object-assign",
+        {"useBuiltIns":true}
+            ]
+        
+        
+      ]
+    
+}
