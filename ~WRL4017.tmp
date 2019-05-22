@@ -24,14 +24,14 @@ UI Validation
 Logout
 
 ## Data Model Design.
-![DataModel](data.jpg)
+![DataModel](Data-model.jpg)
 
 ## UI Design.
 ![Screen](Screen.jpg)
 
 
 ##Data Flow-Redux
-![Data-flow-Redux](data-redux-flow.jpg)
+![Data-flow-Redux](data-flow-redux.jpg)
 
 ## Routing.
 . . . . List each route supported and state the associated view . . . . . 
@@ -119,7 +119,7 @@ I have performed unit along with integration testing.
 
 ## Independent learning.
 
-Heroku deployment, how to connect redux with express app 
+Heroku deployment, how to connect redux with express app
 
 [model]: ./data.jpg
 [image3]: ./screen.png

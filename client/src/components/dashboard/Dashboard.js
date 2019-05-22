@@ -6,7 +6,7 @@ import Spinner from '../Layout/spinner'
 import {Link} from 'react-router-dom'
 import DashboardActions from './DashboardActions'
 import Experience from './ExperienceList'
-import Complaints from './ComplaintsList'
+import Complaint from './ComplaintsList'
 
 const Dashboard =({getCurrentProfile,
   deleteAccount,
@@ -20,10 +20,11 @@ const Dashboard =({getCurrentProfile,
      loading && profile ===null ? <Spinner/>:<Fragment>
    <h1 className='large text-primary'>Dashboard</h1>
    <p className='lead'><i className='fas fa-user'/>Welcome {user && user.name} </p>
-   {profile !==null ?(<Fragment>
-      <DashboardActions/>
-      <Experience experience={profile.experience}/>
-      {/* <Complaints Complaints={profile.Complaints}/> */}
+   {profile !==null ?(
+   <Fragment>
+       <DashboardActions/>
+       <Experience experience={profile.experience}/>
+      <Complaint complaint={profile.complaint}/> 
       
       <div className="my-2">
       <button className="btn btn-danger" onClick={()=>deleteAccount()}>

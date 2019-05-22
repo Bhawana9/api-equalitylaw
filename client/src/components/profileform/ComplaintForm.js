@@ -3,18 +3,19 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {addComplaints} from '../../actions/profile'
 
-import {Link , withRouter} from 'react-router-dom'
+import {Link ,withRouter} from 'react-router-dom'
 const ComplaintForm= ({addComplaints,history}) => {
     const [formData,setFormData]=useState({
       
         Status:'',
         Department:'',
         Description:'',
-        CommitterName:'',
-        CommitterPosition:'',
+        CommiterName:'',
+        CommiterPosition:'',
         from:'',
         to:'',
         note:'',
+        errors:''
         
     });
 
@@ -24,8 +25,8 @@ const ComplaintForm= ({addComplaints,history}) => {
         Status,
         Department,
         Description,
-        CommitterName,
-        CommitterPosition,
+        CommiterName,
+        CommiterPosition,
         from,
         to,
         note,
@@ -37,9 +38,10 @@ const ComplaintForm= ({addComplaints,history}) => {
 
     const onSubmit=e=>{
       e.preventDefault()
+     
            addComplaints(formData,history)
     }
-    return (
+        return (
        <Fragment>
         <h1 className="large text-primary">
           File your Complaint
@@ -52,15 +54,18 @@ const ComplaintForm= ({addComplaints,history}) => {
         <form className="form" onSubmit={e=>onSubmit(e)}>
                    
         <div className="form-group">
-           <select name="status" value={Status} onChange={e=>onChange(e)}>
+        <select name="Status" value={Status} onChange={e=>onChange(e)}>
+        <option value="0">* Select Status </option>
+          
+           <option value="Open">Open</option>
+           <option value="Close">Close</option>
               
-              <option value="Other">Open</option>
             </select>
            </div>
             
             <div className="form-group">
              <select name="Department" value={Department} onChange={e=>onChange(e)}>
-              <option value="0">* Select Department </option>
+              <option value="0">* Select Department of Responsible Person</option>
               <option value="IT Services">IT Services</option>
               <option value="HR and Payroll">HR and Payroll</option>
               <option value="Admin Department">Admin Department</option>
@@ -73,19 +78,19 @@ const ComplaintForm= ({addComplaints,history}) => {
             </div>
             
               <div className="form-group">
-            <input type="text" placeholder="Describe your incident" name="Description" value={Description}  onChange={e=>onChange(e)}/>
+            <input type="text" placeholder="Describe your incident in Details" name="Description" value={Description}  onChange={e=>onChange(e)}/>
             
           </div>
             <div className="form-group">
-            <input type="text" placeholder="CommitterName" name="CommitterName" value={CommitterName}  onChange={e=>onChange(e)}/>
+            <input type="text" placeholder="Person Name who Commit Harrassment" name="CommiterName" value={CommiterName}  onChange={e=>onChange(e)}/>
             </div>
 
             <div className="form-group">
-            <input type="text" placeholder="CommitterPosition" name="CommitterPosition" value={CommitterPosition}  onChange={e=>onChange(e)}/>
+            <input type="text" placeholder="Person Position who Commit Harrassment" name="CommiterPosition" value={CommiterPosition}  onChange={e=>onChange(e)}/>
             </div>      
                
         <div className="form-group">
-            <input type="text" placeholder="note" name="note" value={note}  onChange={e=>onChange(e)}/>
+            <input type="text" placeholder="Anything need to be Noted" name="note" value={note}  onChange={e=>onChange(e)}/>
          
           </div>
           <div className="form-group">
@@ -99,7 +104,7 @@ const ComplaintForm= ({addComplaints,history}) => {
         </div>
         
   
-          <input type="submit" className="btn btn-primary my-1" />
+          <input type="submit" className="btn btn-primary my-1" /> 
           <Link className="btn btn-light my-1" to="/dashboard">Go Back</Link>
         </form>
       </Fragment>

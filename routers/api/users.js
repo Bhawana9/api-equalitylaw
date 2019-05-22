@@ -1,13 +1,10 @@
 const express =require('express')
 const auth=require('../../middleware/auth')
-const User=require('../../models/users')
+const User=require('../../models/Users')
 const bcrypt =require('bcryptjs')
 const jwt=require('jsonwebtoken')
 const config=require('config')
 const router = express.Router(); // eslint-disable-line
-const multer=require('multer')
-const {sendWelcomeMail}=require('../../emails/account')
-const {cancelEmail}=require('../../emails/account')
 const {check,validationResult}=require('express-validator/check')
 
 //Route to create user (register user)
@@ -26,7 +23,7 @@ async (req,res)=>{
       
       if(user)
       {
-        res.status(400).json({errors:[{msg:'User already exists'}]})
+        res.status(404).json({errors:[{msg:'User already exists'}]})
       }
 
       user=new User({
@@ -34,6 +31,8 @@ async (req,res)=>{
         email,
         password
       });
+
+      //Hashing password
       const salt=await bcrypt.genSalt(10);
       user.password=await bcrypt.hash(password,salt)
       await user.save();
@@ -43,11 +42,11 @@ async (req,res)=>{
           id:user.id
         }
       }
-      //sendWelcomeMail(user.email,user.name)
+     
+      //Return json web token
       jwt.sign(
         payload,
         config.get('jwtSecret'),
-        {expiresIn:360000},
         (err,token)=>{
         if(err) throw err;
         res.json({token})
@@ -55,7 +54,7 @@ async (req,res)=>{
     }
     catch(e)
     {
-      res.status(400).send({error:e.message})
+      res.status(500).send({error:e.message})
     }
    });
   

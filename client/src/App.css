@@ -244,7 +244,12 @@ img {
   margin-top: 0.3rem;
   color: #888;
 }
-
+.error {
+  color: red;
+  font-style: normal;
+  font-size:1rem; 
+  margin: 0;
+}
 .form input[type='text'],
 .form input[type='email'],
 .form input[type='password'],

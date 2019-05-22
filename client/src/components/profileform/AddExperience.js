@@ -24,7 +24,7 @@ const AddExperience =({addExperience,history})=>{
     const onChange=e=>setFormData({...expData,[e.target.name]:e.target.value})
     const onSubmit=e=>{
       e.preventDefault()
-      addExperience(expData,history,true)
+      addExperience(expData,history)
       
     } 
         return (
@@ -53,7 +53,7 @@ const AddExperience =({addExperience,history})=>{
           <input type="date" name="to" value={to} onChange={e=>onChange(e)} disabled={toDateDisabled ?'disabled':''}/>
         </div>
         
-        <input type="submit" className="btn btn-primary my-1" />
+        < input type="submit" className="btn btn-primary my-1" />
         <Link className="btn btn-light my-1" to="/dashboard">Go Back</Link>
       </form> 
             </Fragment>

@@ -1,10 +1,9 @@
-const isEmpty = value => {
-    return (
-      value === undefined ||
-      value === null ||
-      (typeof value === "object" && Object.keys(value).length === 0) ||
-      (typeof value === "string" && value.trim().length === 0)
-    );
-  };
-  
-  export default isEmpty;
+export default function validate(values) {
+  let errors = {};
+  if (!values.email) {
+    errors.email = 'Email address is required';
+  } else if (!/\S+@\S+\.\S+/.test(values.email)) {
+    errors.email = 'Email address is invalid';
+  }
+  return errors;
+};

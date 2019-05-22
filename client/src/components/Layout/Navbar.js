@@ -11,7 +11,7 @@ const Navbar =({auth:{isAuthenticated,loading},logout})=> {
     <li><a onClick={logout} href="#!"> <i className="fas fa-sign-out-alt"></i>{''}
     <span className="hide-sm">Logout</span></a></li>
     <li><Link to="/contact">Contact Us</Link></li>
-    <li><Link to="/complaints">Complaints</Link></li>
+    
   </ul>
   );
 
@@ -37,6 +37,7 @@ const Navbar =({auth:{isAuthenticated,loading},logout})=> {
     Navbar.propTypes={
       logout:PropTypes.func.isRequired,
       auth:PropTypes.object.isRequired,
+      isAuthenticated:PropTypes.bool,
     }
     const mapStateToProps = (state) => {
       return {

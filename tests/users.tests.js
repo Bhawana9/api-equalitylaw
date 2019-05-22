@@ -3,7 +3,7 @@ const request = require('supertest');
 const {ObjectID} = require('mongodb');
 
 const {app} = require('../app');
-const {User} = require('../models/users');
+const {User} = require('../models/Users');
 const {users, populateUsers} = require('./seeds/user');
 
 beforeEach(populateUsers);

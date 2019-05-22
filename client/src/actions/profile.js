@@ -10,7 +10,7 @@ import { setAlert } from "./alert.js";
 
 //Cureent user profile
 export const getCurrentProfile = () => async dispatch => {
-  dispatch({type:CLEAR_PROFILE})
+  
   try {
     const res=await axios.get('/api/profile/me') 
     dispatch({
@@ -112,26 +112,27 @@ export const addComplaints = (expData) => async dispatch => {
       'Content-Type':'application/json'
     }
   }
+  if (window.confirm("Are you sure? This can Not be Undone!"))
+  {
      try {
     const res=await axios.put('/api/profile/complaints',expData,config) 
     dispatch({
         type:UPDATE_PROFILE,
         payload:res.data
     }) 
-
-    dispatch(setAlert('Complaint Filed','success')) 
    
+    dispatch(setAlert('Complaint Filed !!','success'))
+        
+    
   } catch (err) {
-    const errors=err.response.data.errors;
-    if(errors){
-        errors.forEach(error=>dispatch(setAlert(error.msg,'danger')))
-    }  
+     
    dispatch({
        type:PROFILE_ERROR,
        payload:{msg:err.response.statusText,status:err.response.status}
    })
       
   }
+};
 }
 //delete experience
 export const deleteExperience = id => async dispatch => {
@@ -151,6 +152,26 @@ export const deleteExperience = id => async dispatch => {
    })
       
   }
+};
+
+//edit experience
+export const editExperience = id => async dispatch => {
+  try {
+const res=await axios.patch(`/api/profile/experience/${id}`) 
+dispatch({
+   type:UPDATE_PROFILE,
+   payload:res.data
+}) 
+
+dispatch(setAlert('Experience Edit Successfully','success'))
+
+} catch (err) {
+dispatch({
+  type:PROFILE_ERROR,
+  payload:{msg:err.response.statusText,status:err.response.status}
+})
+ 
+}
 };
 
 

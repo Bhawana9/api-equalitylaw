@@ -11,9 +11,9 @@ const DashboardActions= () => {
     <Link to="/add-experience" className="btn btn-light"
       ><i className="fab fa-black-tie text-primary"></i> Add Experience</Link
     >
-   
-    <Link to="/edit-experience" className="btn btn-light"
-      ><i className="fab fa-black-tie text-primary"></i> Edit Experience</Link
+    
+    <Link to="/complaints" className="btn btn-light"
+      ><i className="fab fa-black-tie text-primary"></i> Add Complaints</Link
     >
   </div>
   )

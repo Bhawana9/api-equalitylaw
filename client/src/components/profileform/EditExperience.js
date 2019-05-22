@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import {addExperience,getCurrentProfile} from '../../actions/profile'
 import {Link , withRouter} from 'react-router-dom'
 
-const EditExperience =({profile:{profile,loading},addExperience,history})=>{
+const EditExperience =({profile:{profile,loading},getCurrentProfile,addExperience,history})=>{
     const [expData,setFormData]=useState({
         title:'',
         company:'',
@@ -49,7 +49,7 @@ const EditExperience =({profile:{profile,loading},addExperience,history})=>{
           <input type="text" placeholder="* Job Title" name="title"value={title} onChange={e=>onChange(e)} required />
         </div>
         <div className="form-group">
-          <input type="text" placeholder="* Company" name="company" value={company} onChange={e=>onChange(e)} required />
+          <input type="text" placeholder="* Company" name="company" value={company} onChange={e=>onChange(e)}  />
         </div>
         <div className="form-group">
           <input type="text" placeholder="Location" name="location" value={location} onChange={e=>onChange(e)}/>
@@ -85,4 +85,4 @@ profile:PropTypes.object.isRequired
     }
     
 
-export default connect(mapStateToProps,{addExperience})(withRouter(EditExperience))
+export default connect(mapStateToProps,{addExperience,getCurrentProfile})(withRouter(EditExperience))

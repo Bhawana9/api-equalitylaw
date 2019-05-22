@@ -2,7 +2,7 @@ const express =require('express')
 const auth=require('../../middleware/auth')
 const router = express.Router();
 const bcrypt =require('bcryptjs')
-const User=require('../../models/users')
+const User=require('../../models/Users')
 const {check,validationResult}=require('express-validator/check')
 const jwt=require('jsonwebtoken')
 const config=require('config')
@@ -26,7 +26,7 @@ router.get('/', auth,async (req,res)=>{
 router.post('/',[
 check('email','Please include valid email').isEmail(),
 check('password','Please enter a password with 7 or more characters').exists()], 
-
+auth,
 async (req,res)=>{
   const errors=validationResult(req)
   if(!errors.isEmpty()){
@@ -56,7 +56,7 @@ async (req,res)=>{
         }
       }
 
-      jwt.sign(payload,config.get('jwtSecret'),{expiresIn:360000},(err,token)=>{
+      jwt.sign(payload,config.get('jwtSecret'),(err,token)=>{
         if(err) throw err;
         res.json({token})
       })

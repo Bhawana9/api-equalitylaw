@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+
 
 const ProfileSchema = new mongoose.Schema({
   user: {
@@ -11,7 +11,8 @@ const ProfileSchema = new mongoose.Schema({
     type: String
   },
   department: {
-    type: String
+    type: String,
+    required: true
   },
   social: {
     
@@ -60,15 +61,16 @@ const ProfileSchema = new mongoose.Schema({
   ],
 complaint:[
   {
-  description:{
+  Description:{
     type:String,
-    required:true,
+    //required:true,
     trim:true
 },
-department:{
-    type:String
+Department:{
+    type:String,
+    //required:true
 },
-Commitername:{
+CommiterName:{
     type:String,
     trim:true
 },
@@ -79,12 +81,12 @@ CommiterPosition:{
 note:{},
 Status:{
     type:String,
-    required:true,
+   
     
 },
 from: {
   type: Date,
-  required: true
+  //required: true
 },
 to: {
   type: Date

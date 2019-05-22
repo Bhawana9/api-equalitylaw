@@ -1,21 +1,20 @@
 const jwt=require('jsonwebtoken')
 const config=require('config')
 
-const auth= async (req,res,next)=>{
+module.exports= function (req,res,next){
    
        const token=req.header('x-auth-token')
        if(!token)
        {
-        res.status(401).json({msg:'No token'})   
+        res.status(401).json({msg:'No token, authorization denied!!'})   
        }
        try{
        const decoded=jwt.verify(token,config.get('jwtSecret'))
        req.user=decoded.user;
-       next()
+      next()
       
    }catch(e){
-       res.status(401).send({error:'Please authenticate'})
+       res.status(404).send({error:'Please authenticate'})
    }
 }
 
-module.exports=auth

@@ -1,7 +1,8 @@
 
 const express =require('express')
 const auth=require('../../middleware/auth')
-const Profile=require('../../models/profile')
+const Profile=require('../../models/Profile')
+const User=require('../../models/Users')
 const router = express.Router();
 const {check ,validationResult}=require('express-validator/check')
 
@@ -24,6 +25,8 @@ router.post('/', auth,async (req,res)=>{
     location
   }=req.body
   
+
+  //Build profile object
   const profileFields={};
   profileFields.user=req.user.id;
   if(company) profileFields.company=company;
@@ -57,11 +60,11 @@ profile=await Profile.findOneAndUpdate({user:req.user.id},{$set:profileFields},{
 
     
   //@route api/profile/me
- //@desc get current users profile
+ //@desc get current user profile
    router.get('/me',auth,async (req,res)=>{
        try{
 
-        const profile= await Profile.findOne({user:req.user.id}).populate('user',['name'])
+        const profile= await Profile.findOne({user:req.user.id}).populate('user',['name','email'])
         if(!profile){
         return res.status(400).json({msg:'There is no profile fo this user'})
         }
@@ -77,10 +80,10 @@ profile=await Profile.findOneAndUpdate({user:req.user.id},{$set:profileFields},{
   //Create  profile as per user
  //@route GET api/profile
  //@desc get all profiles
- router.get('/',auth,async (req,res)=>{
+ router.get('/',async (req,res)=>{
   try{
 
-   const profiles= await Profile.findOne().populate('user',['name'])
+   const profiles= await Profile.find().populate('user',['name'])
    res.json(profiles)
 }
 catch(e)
@@ -92,7 +95,7 @@ catch(e)
  //Create  profile as per user
  //@route GET api/profile/user/:user_id
  //@desc get by profile by id
- router.get('/user/:user_id',auth,async (req,res)=>{
+ router.get('/user/:user_id',async (req,res)=>{
   try{
 
    const profiles= await Profile.findOne({user:req.params.user_id}).populate('user',['name'])
@@ -113,11 +116,12 @@ catch(e)
 
 
 
-  //Delete profile
+  //Delete profile and user
     router.delete('/',auth,async(req,res)=>{
     try{
-     await Profile.findOneAndRemove({user:req.user.id})
-     await User.findOneAndRemove({_id:req.user.id})
+     await Profile.findOneAndDelete({user:req.user.id})
+     await User.findOneAndDelete({_id:req.user.id})
+
      res.json({msg:'User Deleted'})
   }
     catch(e)
@@ -126,7 +130,7 @@ catch(e)
     }
   })
   
- // add profile experience
+ // add profile experience 
  router.put('/experience',[auth,[check('title','Title is required').not().isEmpty(),
  check('company','Company is required').not().isEmpty()]], async(req,res)=>{
    
@@ -173,17 +177,43 @@ res.status(404).send(e)
     const removeIndex=profile.experience.map(item=>item.id).indexOf(req.params.exp_id)
     profile.experience.splice(removeIndex,1);
     await profile.save()
-    res.send(profile)
+    res.json(profile)
    }catch(e){
      console.log({e:e.message})
     res.status(404).send(e)
    }
  })
 
+ router.patch('/experience/:exp_id',auth,async(req,res)=>{
+
+   const updates=Object.keys(req.body)
+   const allowedUpdates=['company','title','from','to','location']
+   const isValidOperation=updates.every((update)=>{
+     allowedUpdates.includes(update)
+
+     if(!isValidOperation)
+     {
+      res.status(404).send({error:'Invalid updates'})
+     }
+   })
+   try{
+     const experience=await Profile.findByIdAndUpdate(req.params.id,req.body,{new:true})
+     if(!experience)
+     {
+       res.status(404).send()
+     }
+
+     res.send(experience)
+  }catch(e){
+    console.log({e:e.message})
+   res.status(404).send(e)
+  }
+})
+
  //add profile complaint
 
-router.put('/complaints',[auth,[check('name','name is required').not().isEmpty(),
-check('description','description is required').not().isEmpty()]], async(req,res)=>{
+router.put('/complaints',[auth,[check('Department','department is required').not().isEmpty(),
+check('Description','description is required')]],async(req,res)=>{
   
    const errors=validationResult(req);
    if(!errors)
@@ -194,7 +224,7 @@ check('description','description is required').not().isEmpty()]], async(req,res)
     Status,
         Department,
         Description,
-        CommitterName,
+        Committername,
         CommitterPosition,
         from,
         to,
@@ -207,7 +237,7 @@ check('description','description is required').not().isEmpty()]], async(req,res)
     Status,
     Department,
     Description,
-    CommitterName,
+    Committername,
     CommitterPosition,
     from,
     to,
@@ -218,7 +248,7 @@ check('description','description is required').not().isEmpty()]], async(req,res)
    try{
 const profile=await Profile.findOne({user:req.user.id})
 
-profile.complaints.unshift(newComp)
+profile.complaint.unshift(newComp)
 
 await profile.save()
 res.json(profile)

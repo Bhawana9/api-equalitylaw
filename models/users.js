@@ -15,7 +15,13 @@ email:{
     required:true,
     trim:true,
     lowercase:true,
-    unique:true
+    unique:true,
+    validate(value){
+        if(!validator.isEmail(value))
+        {
+            throw new Error('Email is invalid')
+        }
+    }
     
 },
 password:{
@@ -23,6 +29,12 @@ password:{
     required:true,
     minlength:7,
     trim:true,
+    validate(value){
+        if(value.toLowerCase().includes('password'))
+        {
+            throw new Error ('Password cannot contains "password"')
+        }
+    }
     },
 
 avatar:{
@@ -62,24 +74,6 @@ avatar:{
 //     return token
 // }
 
-// //Sign-in (Using hashing password compare)
-// userSchema.statics.findByCredentials=async (email,password)=>{
-//      const user=await User.findOne({email})
-
-//      if(!user)
-//      {
-//          throw new Error('User profile not register!To LOGIN Please Register first')
-//      }
-
-//      const isMatch=await bcrypt.compare(password,user.password)
-
-//      if(!isMatch)
-//      {
-//          throw new Error('Error in either email or password!')
-//      }
-
-//      return user
-// }
 
 
 // //delete user complaints when user is removed

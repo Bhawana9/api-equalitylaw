@@ -30,7 +30,7 @@ const Register =({setAlert,register,isAuthenticated})=> {
       register({name,email,password})  
       }
   }
-  //Redirect to login
+  //Redirect to dashboard
   if(isAuthenticated)
   {
     return <Redirect to='/dashboard'/>
@@ -46,7 +46,7 @@ const Register =({setAlert,register,isAuthenticated})=> {
           <input type="text" placeholder="Name" name="name" value={name} onChange={e=>onNameChange(e)}  />
         </div>
         <div className="form-group">
-          <input type="email" placeholder="Email Address" name="email" value={email} onChange={e=>onEmailChange(e)} />
+          <input type="email" placeholder="Email Address" name="email" value={email} onChange={e=>onEmailChange(e)} required/>
           
         </div>
         <div className="form-group">
