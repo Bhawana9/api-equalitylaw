@@ -27,7 +27,7 @@ Logout
 ![DataModel](data.jpg)
 
 ## UI Design.
-![Screen](Screen.jpg)
+![Screen](Screen.png)
 
 
 ##Data Flow-Redux
